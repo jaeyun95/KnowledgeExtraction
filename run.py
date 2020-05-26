@@ -1,9 +1,15 @@
 from dataloaders.vcr import VCR
 from extractionKeyword import extractionKeyword
+from extractionKnowledge import extractionKnowledge
 
-instance = VCR('val', 'rationale')
+train_answer = VCR('train','answer')
+train_rationale = VCR('train','rationale')
+#val_answer = VCR('val','answer')
+#val_rationale = VCR('val', 'rationale')
 
-for i,item in enumerate(instance):
-    keyword = extractionKeyword(item)
-    question, answer_list = keyword.get_keyword()
-    print(question)
+keywordExtractor = extractionKeyword()
+knowledgeExtractor = extractionKnowledge(50,10)
+
+for t_answer,t_rationale in zip(train_answer,train_rationale):
+    print(keywordExtractor.get_keyword(t_answer['question']))
+
