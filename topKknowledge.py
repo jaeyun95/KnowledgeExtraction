@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 import torch.nn as nn
 from transformers import BertModel, BertTokenizer
-
+from torch.nn.modules.distance import PairwiseDistance
 
 def embedding(sentence):
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -22,4 +22,9 @@ class topKknowledge():
     def cosineSimilarity(self):
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
         output = cos(self.compare_sentence,self.knowledges[0])
+
+    def euclideanSimilarity(selfs):
+        euclidean = PairwiseDistance(2).forward(self.compare_sentence,self.t_knowledges)
+
+    def manhattanSimilarity(self):
 
