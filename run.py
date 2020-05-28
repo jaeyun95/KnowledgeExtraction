@@ -11,5 +11,6 @@ keywordExtractor = extractionKeyword()
 knowledgeExtractor = extractionKnowledge(50,10)
 
 for t_answer,t_rationale in zip(train_answer,train_rationale):
-    print(keywordExtractor.get_keyword(t_answer['question']))
+    print(t_answer['question'])
+    #print(keywordExtractor.get_keyword(t_answer['question']))
 

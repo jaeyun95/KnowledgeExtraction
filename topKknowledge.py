@@ -17,14 +17,36 @@ class topKknowledge():
         self.number = number
         self.compare_sentence = compare_sentence
         self.t_knowledges = [knowledge['text'] for knowledge in knowledges]
-        #self.output = torch
+        self.output = torch
 
     def cosineSimilarity(self):
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
-        output = cos(self.compare_sentence,self.knowledges[0])
+        top_k_knowledge = []
+        for i,items in enumerate(self.t_knowledges):
+            output = cos(self.compare_sentence,self.knowledges[0])
 
-    def euclideanSimilarity(selfs):
-        euclidean = PairwiseDistance(2).forward(self.compare_sentence,self.t_knowledges)
+    '''
+    cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
+    final_top_k = []
+    for i,items in enumerate(zero_fact_list):
+        lens = len(items)
+        final = torch.zeros([lens,768])
+        for j,item in enumerate(items):
+            final[j,:] = cos(zero_question,item['bert'])
+        scoring = F.softmax(final_mlp(final), dim=0)
+        top_200 = torch.topk(torch.t(scoring),100)
+        top_200_list = top_200[1].tolist()
+        pre_top_fact = []
+        #print('top :',top_200_list[0])
+        for score in top_200_list[0]:
+            pre_top_fact.append(fact_list[i][score])
+            #print(fact_list[i][score])
+        final_top_k.append(pre_top_fact)
+    return final_top_k
+    '''
+    #def euclideanSimilarity(selfs):
+    #    euclidean = PairwiseDistance(2).forward(self.compare_sentence,self.t_knowledges)
 
-    def manhattanSimilarity(self):
+    #def manhattanSimilarity(self):
+
 
