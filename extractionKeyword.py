@@ -15,4 +15,4 @@ class extractionKeyword():
     def get_keyword(self, tokenized_sentence):
         removed_sentence = self._remove_stopword(tokenized_sentence)
         prototype_sentence = self._prototype(removed_sentence)
-        return ' '.join(prototype_sentence)
+        return prototype_sentence

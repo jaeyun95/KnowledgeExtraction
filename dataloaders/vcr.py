@@ -88,8 +88,8 @@ class VCR(Dataset):
         item = deepcopy(self.items[index])
         instance = {}
 
-        if self.mode == 'rationale':
-            conditioned_label = item['answer_label'] if self.split != 'test' else self.conditioned_answer_choice
+        if self.mode == 'rationale' and self.split != 'test':
+            conditioned_label = item['answer_label']
             item['question'] += item['answer_choices'][conditioned_label]
 
         # question convert
