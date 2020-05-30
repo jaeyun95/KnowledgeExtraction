@@ -23,7 +23,9 @@ class topKknowledge():
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
         top_k_knowledge = []
         for i,items in enumerate(self.t_knowledges):
+            max_len = len(self.compare_sentence)
             output = cos(self.compare_sentence,self.knowledges[0])
+
 
     '''
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
