@@ -13,17 +13,21 @@ def BERTembedding(sentence):
     return last_hidden_states
 
 class topKknowledge():
-    def __init__(self, number, compare_sentence, knowledges):
+    def __init__(self, number, knowledge_max_len, compare_sentence, knowledges):
         self.number = number
         self.compare_sentence = compare_sentence
         self.t_knowledges = [knowledge['text'] for knowledge in knowledges]
-        self.output = torch
-
+        if len(compare_sentence) > knowledge_max_len:
+            self.max_len = len(compare_sentence)
+        else:
+            self.max_len = knowledge_max_len
 
     def embedding(self):
         embedded_sentence = BERTembedding(self.compare_sentence)
-        
-        return embedded_sentence
+        embedded_knowledges = torch.zeros([len(self.t_knowledges),self.max_len,768])
+        for i in range(len(self._t_knowledge)):
+            embedded_knowledges[i,:,:] = BERTembedding(self.t_knowledges[i])
+        return embedded_sentence, embedded_knowledges
 
     def cosineSimilarity(self):
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
