@@ -10,32 +10,50 @@ def BERTembedding(sentence):
     input_ids = torch.tensor(tokenizer.encode(sentence,add_special_tokens=True)).unsqueeze(0)
     output = model(input_ids)
     last_hidden_states = output[0].squeeze(0)
-    return last_hidden_states
+    return last_hidden_states[1:-1]
 
 class topKknowledge():
-    def __init__(self, number, knowledge_max_len, compare_sentence, knowledges):
+    def __init__(self, number, knowledge_max_len):
         self.number = number
-        self.compare_sentence = compare_sentence
-        self.t_knowledges = [knowledge['text'] for knowledge in knowledges]
-        if len(compare_sentence) > knowledge_max_len:
-            self.max_len = len(compare_sentence)
-        else:
-            self.max_len = knowledge_max_len
+        self.knowledge_max_len = knowledge_max_len
+        #self.compare_sentence = compare_sentence
+        #self.t_knowledges = [knowledge['text'] for knowledge in knowledges]
+        #if len(compare_sentence) > knowledge_max_len:
+        #    self.max_len = len(compare_sentence)
+        #else:
+        #    self.max_len = knowledge_max_len
 
-    def embedding(self):
-        embedded_sentence = BERTembedding(self.compare_sentence)
-        embedded_knowledges = torch.zeros([len(self.t_knowledges),self.max_len,768])
-        for i in range(len(self._t_knowledge)):
-            embedded_knowledges[i,:,:] = BERTembedding(self.t_knowledges[i])
+        self.final_mlp = torch.nn.Sequential(
+            torch.nn.Dropout(0.3, inplace=False),
+            torch.nn.Linear(768, 512),
+            torch.nn.ReLU(inplace=True),
+            torch.nn.Dropout(0.3, inplace=False),
+            torch.nn.Linear(512, 1),
+        )
+
+    def embedding(self, max_len, compare_sentence, t_knowledges):
+        embedded_sentence = torch.zeros([max_len, 768])
+        embedded_sentence[:len(compare_sentence),:] = BERTembedding(compare_sentence)
+        embedded_knowledges = torch.zeros([len(t_knowledges),max_len,768])
+        for i in range(len(t_knowledges)):
+            embedded_knowledges[i,:len(t_knowledges[i]),:] = BERTembedding(t_knowledges[i])
         return embedded_sentence, embedded_knowledges
 
-    def cosineSimilarity(self):
+    def cosineSimilarity(self, embedded_sentence, embedded_knowledges):
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
         top_k_knowledge = []
         for i,items in enumerate(self.t_knowledges):
-            max_len = len(self.compare_sentence)
             output = cos(self.compare_sentence,self.knowledges[0])
+            top_k_knowledge.append(self.final_mlp(output))
+        return top_k_knowledge
 
+    def get_topKknowledge(self, compare_sentence, knowledges):
+        t_knowledges = [knowledge['text'].split(' ') for knowledge in knowledges]
+        if len(compare_sentence) > self.knowledge_max_len:
+           max_len = len(compare_sentence)
+        else:
+           max_len = self.knowledge_max_len
+        embedded_sentence, embedded_knowledges = self.embedding(max_len, compare_sentence, t_knowledges)
 
     '''
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
