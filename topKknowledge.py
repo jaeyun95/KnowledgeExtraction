@@ -4,10 +4,14 @@ import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 from torch.nn.modules.distance import PairwiseDistance
 
+USE_CUDA = torch.cuda.is_available()
+device = torch.device("cuda" if USE_CUDA else "cpu")
+
+
 def BERTembedding(sentence):
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model = BertModel.from_pretrained('bert-base-uncased')
-    input_ids = torch.tensor(tokenizer.encode(sentence,add_special_tokens=True)).unsqueeze(0)
+    input_ids = torch.tensor(tokenizer.encode(sentence,add_special_tokens=True),device=device).unsqueeze(0).cuda()
     output = model(input_ids)
     last_hidden_states = output[0].squeeze(0)
     return last_hidden_states[1:-1]
@@ -32,9 +36,9 @@ class topKknowledge():
         )
 
     def embedding(self, max_len, compare_sentence, t_knowledges):
-        embedded_sentence = torch.zeros([max_len, 768])
+        embedded_sentence = torch.zeros([max_len, 768],device=device)
         embedded_sentence[:len(compare_sentence),:] = BERTembedding(compare_sentence)
-        embedded_knowledges = torch.zeros([len(t_knowledges),max_len,768])
+        embedded_knowledges = torch.zeros([len(t_knowledges),max_len,768],device=device)
         for i in range(len(t_knowledges)):
             embedded_knowledges[i,:len(t_knowledges[i]),:] = BERTembedding(t_knowledges[i])
         return embedded_sentence, embedded_knowledges
@@ -54,6 +58,7 @@ class topKknowledge():
         else:
            max_len = self.knowledge_max_len
         embedded_sentence, embedded_knowledges = self.embedding(max_len, compare_sentence, t_knowledges)
+        print(embedded_sentence)
 
     '''
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
