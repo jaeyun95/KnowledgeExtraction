@@ -7,10 +7,10 @@ from torch.nn.modules.distance import PairwiseDistance
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
-
 def BERTembedding(sentence):
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model = BertModel.from_pretrained('bert-base-uncased')
+    model.to(device)
     input_ids = torch.tensor(tokenizer.encode(sentence,add_special_tokens=True),device=device).unsqueeze(0).cuda()
     output = model(input_ids)
     last_hidden_states = output[0].squeeze(0)
