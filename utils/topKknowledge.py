@@ -9,12 +9,15 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 
 class BERTembedding():
     def __init__(self):
+        # load pretrained BERT model
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.model = BertModel.from_pretrained('bert-base-uncased')
         self.model.to(device)
 
     def get_embedding(self, sentence):
+        # make input token
         input_ids = torch.tensor(self.tokenizer.encode(sentence, add_special_tokens=True), device=device).unsqueeze(0).cuda()
+        # result of embedding
         output = self.model(input_ids)
         last_hidden_states = output[0].squeeze(0)
         return last_hidden_states[1:-1]
