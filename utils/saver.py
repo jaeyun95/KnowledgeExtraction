@@ -10,7 +10,7 @@ class VCRSaver():
         self.saver = h5py.File(f'{self.path}_{self.file_name}','w')
         self.number = number
         self.embedding = embedding
-        #output_h5_2 = h5py.File(f'extract_feature/vcr_new_tag_image_train.h5', 'w')
+
     def save(self, answer_results, rationale_results):
         print('=====================================start!======================================')
         # make h5 group
