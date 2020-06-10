@@ -24,14 +24,4 @@ class VCRSaver():
         print('file path : ',self.path)
         print('file name : ',self.file_name)
         print('=====================================finish!=====================================')
-        '''
-        output_h5.create_group(f'{image_id}')
-        group2use = output_h5[f'{image_id}']
-        group2use.create_dataset(f'image_id', data=image_id)
-        group2use.create_dataset(f'image_h', data=image_h)
-        group2use.create_dataset(f'image_w', data=image_w)
-        group2use.create_dataset(f'features', data=final_features)
-        group2use.create_dataset(f'boxes', data=final_boxes)
-        group2use.create_dataset(f'num_boxes', data=final_boxes.shape[0])
-        '''
 
