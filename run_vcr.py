@@ -35,6 +35,7 @@ for t_answer,t_rationale in zip(train_answer,train_rationale):
 #end = time.time() # this is test
 #print('time : ',end-start) # this is test
 
+#start = time.time() # this is test
 for v_answer,v_rationale in zip(val_answer,val_rationale):
     answer_list = []
     rationale_list = []
@@ -45,3 +46,6 @@ for v_answer,v_rationale in zip(val_answer,val_rationale):
     for i in range(4):
         topKExtractor.get_topKknowledge(v_answer['question'],answer_list[i])
         #topKExtractor.get_topKknowledge(t_rationale['question'], rationale_list[i])
+
+#end = time.time() # this is test
+#print('time : ',end-start) # this is test
