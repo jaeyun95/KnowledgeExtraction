@@ -1,3 +1,5 @@
 ## this is knowledge extraction system
 
-run_vcr.py --> run knowledge extraction on vcr data
+
+# 1.Generation Knowledge DataBase.
+This is generate Knowledge DataBase. Link is [Here](https://github.com/jaeyun95/KnowledgeExtraction/tree/master/generationDB)
