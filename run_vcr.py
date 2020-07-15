@@ -16,25 +16,27 @@ val_rationale = VCR('val', 'rationale')
 # definee keyword extractor
 keywordExtractor = extractionKeyword()
 # define knowledge extractor
-knowledgeExtractor = extractionKnowledge(50,10)
+knowledgeExtractor = extractionKnowledge(5,10)
 # define topK extractor
 topKExtractor = topKknowledge(50,10)
 
-#print('start!!!') # this is test
-#start = time.time() # this is test
+print('start!!!') # this is test
+start = time.time() # this is test
+k = 0
 for t_answer,t_rationale in zip(train_answer,train_rationale):
     answer_list = []
     rationale_list = []
+    print('k : ',k)
+    k += 1
     for i in range(4):
-        answer_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_answer['answer_list'][i])))
+        knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_answer['answer_list'][i]))
+        knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_rationale['answer_list'][i]))
+        #answer_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_answer['answer_list'][i])))
         #rationale_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_rationale['answer_list'][i])))
 
-    for i in range(4):
-        topKExtractor.get_topKknowledge(t_answer['question'],answer_list[i])
-        #topKExtractor.get_topKknowledge(t_rationale['question'], rationale_list[i])
-#end = time.time() # this is test
-#print('time : ',end-start) # this is test
-
+end = time.time() # this is test
+print('time : ',end-start) # this is test
+'''
 #start = time.time() # this is test
 for v_answer,v_rationale in zip(val_answer,val_rationale):
     answer_list = []
@@ -43,9 +45,6 @@ for v_answer,v_rationale in zip(val_answer,val_rationale):
         answer_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(v_answer['answer_list'][i])))
         #rationale_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_rationale['answer_list'][i])))
 
-    for i in range(4):
-        topKExtractor.get_topKknowledge(v_answer['question'],answer_list[i])
-        #topKExtractor.get_topKknowledge(t_rationale['question'], rationale_list[i])
-
+'''
 #end = time.time() # this is test
 #print('time : ',end-start) # this is test

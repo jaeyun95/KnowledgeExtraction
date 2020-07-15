@@ -3,6 +3,7 @@ import torch.nn.functional as F
 import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 from torch.nn.modules.distance import PairwiseDistance
+import time # this is test
 
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
@@ -33,14 +34,18 @@ class topKknowledge():
             torch.nn.ReLU(inplace=True),
             torch.nn.Dropout(0.3, inplace=False),
             torch.nn.Linear(512, 1),
-        )
+        ).to(device)
 
     def embedding(self, max_len, compare_sentence, t_knowledges):
         embedded_sentence = torch.zeros([max_len, 768],device=device)
         embedded_sentence[:len(compare_sentence),:] = self.embedder.get_embedding(compare_sentence)
         embedded_knowledges = torch.zeros([len(t_knowledges),max_len,768],device=device)
         for i in range(len(t_knowledges)):
+            print('start!!!knowledge')  # this is test
+            start = time.time()  # this is test
             embedded_knowledges[i,:len(t_knowledges[i]),:] = self.embedder.get_embedding(t_knowledges[i])
+            end = time.time()  # this is test
+            print('time knowledge : ', end - start)  # this is test
         return embedded_sentence, embedded_knowledges
 
     def cosineSimilarity(self, embedded_sentence, embedded_knowledges):
@@ -48,7 +53,7 @@ class topKknowledge():
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
 
         # set result tensor
-        compare_result = torch.zeros([len(embedded_knowledges), 768])
+        compare_result = torch.zeros([len(embedded_knowledges), 768]).to(device)
         for i,embedded_knowledge in enumerate(embedded_knowledges):
             # output is result of cosineSimilarity(one knowledge)
             output = cos(embedded_sentence,embedded_knowledge)
@@ -59,7 +64,7 @@ class topKknowledge():
     def get_topKknowledge(self, compare_sentence, knowledges, embedding_save=False):
         # text knowledges convert to list knowledges
         t_knowledges = [knowledge['text'].split(' ') for knowledge in knowledges]
-
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!???', t_knowledges)
         # set max_len
         if len(compare_sentence) > self.knowledge_max_len:
            max_len = len(compare_sentence)
@@ -81,18 +86,24 @@ class topKknowledge():
         # top_K[1] : result of cosinesimilarity index
         top_K = torch.topk(torch.t(scoring), self.number)
         top_K_list = top_K[1].tolist()
-
+        print(top_K_list)
+        result = []
         # make result list
         if embedding_save:
             # embedding_save : True
             # result = [{'e1': str, 'rel': str, 'e2': str, 'text': str, 'embedding': tensor}, ...]
-            result = []
             for i in top_K_list:
+                pre_result = {}
                 pre_result = knowledges[i]
                 pre_result['embedding'] = embedded_knowledges[i]
                 result.append(pre_result)
         else:
             # embedding_save : False
             # result = [{'e1': str, 'rel': str, 'e2': str, 'text': str}, ...]
-            result = [knowledges[i] for i in top_K_list]
-        return result
+            #for i in top_K_list:
+            #    pre_result = knowledges[i]
+            #    pre_result['embedding'] = embedded_knowledges[i]
+            #    result.append(pre_result)
+            print('tt')
+
+        return 'tt'#result
