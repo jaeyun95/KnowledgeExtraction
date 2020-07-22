@@ -88,4 +88,5 @@ with open('assertions.csv','r',encoding="UTF8") as f:
             elif relation == 'ReceivesAction':
                 sentence = start + ' can be ' + end
             pre_node['text'] = sentence
-            collections.insert(pre_node)
+            print(pre_node)
+            #collections.insert(pre_node)

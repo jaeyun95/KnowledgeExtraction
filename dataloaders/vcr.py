@@ -111,4 +111,7 @@ class VCR(Dataset):
         # answer
         instance['answer_list'] = answer_list
 
+        #objects
+        instance['objects'] = item['objects']
+
         return instance

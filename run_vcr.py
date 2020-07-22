@@ -23,6 +23,7 @@ topKExtractor = topKknowledge(50,10)
 print('start!!!') # this is test
 start = time.time() # this is test
 k = 0
+
 for t_answer,t_rationale in zip(train_answer,train_rationale):
     answer_list = []
     rationale_list = []
