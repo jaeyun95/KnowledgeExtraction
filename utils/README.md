@@ -22,7 +22,9 @@ I use mongoDB or json file for extraction knowledge.
 *class
     extractionKnowledge
 *funcrtion
-    get_knowledge : find knowledge in MongoDB.
+    _mongoDB : find knowledge in MongoDB.
+    _hash_table : find knowledge in json using hash talbe.
+    get_knowledge : choosing your version and extract knowledge.
 *usage
     extract = extractionKnowledge(number, max_len) #number is knowledge number, max_len is knowledge sentence length
     example_keyword = ["cute","sister","dog"]
@@ -42,7 +44,7 @@ I use BERT embedding for compare sentence and knowledge and using cosine similar
     result = embedder.get_embedding(example_knowledge)
 ----------------------------------------------------------------------------------------------
 *class
-    topKknowledge
+    topKknowledge --> **modifying now**
 *funcrtion
     embedding : embedding compare sentence and knowledge together. shape is [max length, 768]
     cosineSimilarity : cosine smiliarity compare sentence and knowledge.

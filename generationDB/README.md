@@ -24,8 +24,8 @@ sudo service mongod start
 # 3.Run conceptnet.py
 You run conceptnet.py file. This is save english knowledge into MongoDB.
 I convert conceptnet relation to text like below.
-*Relation and Text Table
-|Relation|Text|Relation|Text|
+### Relation and Text Table
+|**Relation**|**Text**|**Relation**|**Text**|
 |------|------|------|------|
 |RelatedTo|is related to|HasPrerequisite|Something you need to do before you A is B|
 |FormOf|is the root word of|HasProperty|Something you need to do before you  A is B|
@@ -45,6 +45,7 @@ I convert conceptnet relation to text like below.
 |CausesDesire|would make you want to|ReceivesAction|can be|
 |MadeOf|is made of|||
 
+### Run
 ```
 python conceptnet.py
 
