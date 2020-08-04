@@ -16,7 +16,7 @@ I use nltk library for extracting keyword.
     result = extract.get_keyword(example_sentence)
 ```
 
-#extractionKnowledge
+# extractionKnowledge
 I use mongoDB or json file for extraction knowledge.
 ```
 *class
