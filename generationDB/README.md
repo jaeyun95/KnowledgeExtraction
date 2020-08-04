@@ -23,9 +23,37 @@ sudo service mongod start
 
 # 3.Run conceptnet.py
 You run conceptnet.py file. This is save english knowledge into MongoDB.
+I convert conceptnet relation to text like below.
+*Relation and Text Table
+|Relation|Text|Relation|Text|
+|------|------|------|------|
+|RelatedTo|is related to|HasPrerequisite|Something you need to do before you A is B|
+|FormOf|is the root word of|HasProperty|Something you need to do before you  A is B|
+|IsA|is|MotivatedByGoal|You would A because you want B|
+|Part of|is part of|ObstructedBy|is a goal that can be prevented by|
+|HasA|has|Desires|wants to|
+|UsedFor|is used for|CreatedBy|is created by|
+|CapableOf|can|Synonym|is a translation of|
+|AtLocation|can be at|Antonym|is the opposite of|
+|Causes|causes you to|DistinctFrom|is not|
+|HasSubevent|Something you might do while A is B|DerivedFrom|A and B are distinct member of a set|
+|HasFirstSubevent|The first thing you do when you A is B|SymbolOf|symbolically represents|
+|HasLastSubevent|The last thing you do when you A is B|DefinedAs|is the|
+|MannerOf|is a way to|LocatedNear|is typically near|
+|SimilarTo|is similar to|HasContext|is a word used in the context of|
+|EtymologicallyRelatedTo|A and B have a common origin|EtymologicallyDerivedFrom|is derived from|
+|CausesDesire|would make you want to|ReceivesAction|can be|
+|MadeOf|is made of|||
+
 ```
 python conceptnet.py
 
 #knowledge example
 { "_id" : ObjectId("5ec624c4ae42e4918a908948"), "e1" : "abapical", "rel" : "Antonym", "e2" : "apical", "text" : "abapical is the opposite of apical" }
+```
+
+# 4.Make conceptnet.json file(export conceptnet.json from MongoDB)
+This is your choice. I use json file because, mongoDB is too slow.(if you extract little knowledge, i recommand using MongoDB)
+```
+mongoexport -d DATABASE_NAME -c COLLECTION_NAME -o FILENAME.json --port 27017
 ```
