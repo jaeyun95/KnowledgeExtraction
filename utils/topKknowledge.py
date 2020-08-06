@@ -61,7 +61,7 @@ class topKknowledge():
             compare_result[i,:] = self.final_mlp(output)
         return compare_result
 
-    def get_topKknowledge(self, compare_sentence, knowledges, embedding_save=False):
+    def get_topKknowledge(self, compare_sentence, knowledges):
         # text knowledges convert to list knowledges
         t_knowledges = [knowledge['text'].split(' ') for knowledge in knowledges]
         print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!???', t_knowledges)
@@ -88,6 +88,7 @@ class topKknowledge():
         top_K_list = top_K[1].tolist()
         print(top_K_list)
         result = []
+        '''
         # make result list
         if embedding_save:
             # embedding_save : True
@@ -105,5 +106,5 @@ class topKknowledge():
             #    pre_result['embedding'] = embedded_knowledges[i]
             #    result.append(pre_result)
             print('tt')
-
+        '''
         return 'tt'#result
