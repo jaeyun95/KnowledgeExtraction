@@ -1,6 +1,9 @@
 ## This is knowledge extraction system
 
 
+# Architecture
+![architecture](/architecture/architecture.JPG)
+
 # 1.Generation Knowledge DataBase
 This is generate Knowledge DataBase. Link is [Here](https://github.com/jaeyun95/KnowledgeExtraction/tree/master/generationDB)
 
