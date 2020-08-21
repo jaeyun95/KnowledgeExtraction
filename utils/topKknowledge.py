@@ -35,23 +35,19 @@ class topKknowledge():
             torch.nn.Dropout(0.3, inplace=False),
             torch.nn.Linear(512, 1),
         ).to(device)
+        self.result = []
 
     def embedding(self, max_len, compare_sentence, t_knowledges):
         embedded_sentence = torch.zeros([max_len, 768],device=device)
         embedded_sentence[:len(compare_sentence),:] = self.embedder.get_embedding(compare_sentence)
         embedded_knowledges = torch.zeros([len(t_knowledges),max_len,768],device=device)
         for i in range(len(t_knowledges)):
-            print('start!!!knowledge')  # this is test
-            start = time.time()  # this is test
             embedded_knowledges[i,:len(t_knowledges[i]),:] = self.embedder.get_embedding(t_knowledges[i])
-            end = time.time()  # this is test
-            print('time knowledge : ', end - start)  # this is test
         return embedded_sentence, embedded_knowledges
 
     def cosineSimilarity(self, embedded_sentence, embedded_knowledges):
         # set cosineSimilarity value
         cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
-
         # set result tensor
         compare_result = torch.zeros([len(embedded_knowledges), 768]).to(device)
         for i,embedded_knowledge in enumerate(embedded_knowledges):
@@ -64,7 +60,6 @@ class topKknowledge():
     def get_topKknowledge(self, compare_sentence, knowledges):
         # text knowledges convert to list knowledges
         t_knowledges = [knowledge['text'].split(' ') for knowledge in knowledges]
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!???', t_knowledges)
         # set max_len
         if len(compare_sentence) > self.knowledge_max_len:
            max_len = len(compare_sentence)
@@ -86,8 +81,8 @@ class topKknowledge():
         # top_K[1] : result of cosinesimilarity index
         top_K = torch.topk(torch.t(scoring), self.number)
         top_K_list = top_K[1].tolist()
-        print(top_K_list)
-        result = []
+        self.result.append(top_K_list)
+        
         '''
         # make result list
         if embedding_save:
@@ -107,4 +102,4 @@ class topKknowledge():
             #    result.append(pre_result)
             print('tt')
         '''
-        return 'tt'#result
+        return self.result
