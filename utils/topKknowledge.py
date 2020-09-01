@@ -82,7 +82,7 @@ class topKknowledge():
         top_K = torch.topk(torch.t(scoring), self.number)
         top_K_list = top_K[1].tolist()
         self.result.append(top_K_list)
-        
+
         '''
         # make result list
         if embedding_save:
