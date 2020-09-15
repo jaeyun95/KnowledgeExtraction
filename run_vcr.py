@@ -37,15 +37,3 @@ for t_answer,t_rationale in zip(train_answer,train_rationale):
 
 end = time.time() # this is test
 print('time : ',end-start) # this is test
-'''
-#start = time.time() # this is test
-for v_answer,v_rationale in zip(val_answer,val_rationale):
-    answer_list = []
-    rationale_list = []
-    for i in range(4):
-        answer_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(v_answer['answer_list'][i])))
-        #rationale_list.append(knowledgeExtractor.get_knowledge(keywordExtractor.get_keyword(t_rationale['answer_list'][i])))
-
-'''
-#end = time.time() # this is test
-#print('time : ',end-start) # this is test
