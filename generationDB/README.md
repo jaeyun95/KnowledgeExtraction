@@ -1,7 +1,7 @@
 ## This is generate Knowledge DataBase using ConceptNet
 
 This is for knowledge extraction from knowlede databse(conceptnet).
-ConcentNet have many knowledge, so retrieval time is so long.
+ConcentNet have many knowledge, so retrieval time is too long.
 ConcentNet have many Language(maybe 304) But i use only english.
 So, i edit conceptnet and save MongoDB.
 
